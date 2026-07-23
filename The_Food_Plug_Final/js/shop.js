@@ -1,0 +1,14 @@
+document.addEventListener('DOMContentLoaded',()=>{
+ const grid=document.querySelector('#productGrid'); if(!grid)return;
+ const search=document.querySelector('#searchInput'), sort=document.querySelector('#sortProducts'), empty=document.querySelector('#noProducts');
+ let category=new URLSearchParams(location.search).get('category')||'all';
+ function render(){let q=(search?.value||'').toLowerCase().trim();let list=PRODUCTS.filter(p=>(category==='all'||p.category===category)&&(!q||`${p.name} ${p.category} ${p.measure}`.toLowerCase().includes(q)));
+  if(sort?.value==='low')list.sort((a,b)=>a.price-b.price);if(sort?.value==='high')list.sort((a,b)=>b.price-a.price);if(sort?.value==='popular')list.sort((a,b)=>b.popular-a.popular);if(sort?.value==='new')list.sort((a,b)=>Number(b.isNew)-Number(a.isNew));
+  grid.innerHTML=list.map(p=>`<article class="product-card" data-id="${p.id}"><div class="product-image"><img src="${p.image}" alt="${p.name}"><button class="wish ${getWishlist().includes(p.id)?'liked':''}" data-wish="${p.id}" aria-label="Wishlist">♥</button></div><div class="product-body"><span class="tag">${p.category.replace('-', ' ')}</span><h3>${p.name}</h3><p class="product-price">${money(p.price)} <small>/ ${p.measure}</small></p><div class="product-actions"><select data-measure>${[p.measure,'Half '+p.measure,'1 Paint'].filter((x,i,a)=>a.indexOf(x)===i).map(x=>`<option>${x}</option>`).join('')}</select><div class="quantity"><button data-minus>−</button><input value="1" min="1" type="number"><button data-plus>+</button></div><button class="cart" data-cart>Add to Cart</button></div></div></article>`).join('');
+  if(empty)empty.hidden=list.length>0;
+  grid.querySelectorAll('[data-cart]').forEach(btn=>btn.addEventListener('click',()=>{const card=btn.closest('.product-card'),p=PRODUCTS.find(x=>x.id===card.dataset.id);const qty=Math.max(1,Number(card.querySelector('input').value)||1);addToCart(p,qty,card.querySelector('[data-measure]').value)}));
+  grid.querySelectorAll('[data-wish]').forEach(btn=>btn.addEventListener('click',()=>{const liked=toggleWishlist(btn.dataset.wish);btn.classList.toggle('liked',liked)}));
+  grid.querySelectorAll('[data-minus]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.value=Math.max(1,Number(i.value)-1)});grid.querySelectorAll('[data-plus]').forEach(b=>b.onclick=()=>{const i=b.parentElement.querySelector('input');i.value=Number(i.value)+1});
+ }
+ document.querySelectorAll('[data-category]').forEach(b=>{if(b.dataset.category===category)b.classList.add('active')});document.querySelectorAll('[data-category]').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('[data-category]').forEach(x=>x.classList.remove('active'));b.classList.add('active');category=b.dataset.category;render()}));search?.addEventListener('input',render);sort?.addEventListener('change',render);render();
+});

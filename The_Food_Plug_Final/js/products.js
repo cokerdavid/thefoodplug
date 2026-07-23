@@ -1,0 +1,21 @@
+window.PRODUCTS = [
+  ['rice-premium','Premium Nigerian Rice','rice',78000,'Bag','premium-rice.svg',95],
+  ['rice-ofada','Ofada Rice','rice',18000,'5kg','ofada-rice.svg',82],
+  ['beans-brown','Brown Beans','beans',4600,'2 Paints','brown-beans.svg',91],
+  ['beans-white','White Beans','beans',5200,'2 Paints','white-beans.svg',74],
+  ['garri-yellow','Yellow Garri','garri',3500,'Paint','yellow-garri.svg',88],
+  ['garri-white','White Garri','garri',3300,'Paint','white-garri.svg',76],
+  ['yam-flour','Yam Flour','yam-flour',6500,'2kg','yam-flour.svg',69],
+  ['semovita','Semovita','semovita',7200,'2kg','semovita.svg',84],
+  ['palm-oil','Palm Oil','palm-oil',2800,'5 Litres','palm-oil.svg',93],
+  ['vegetable-oil','Vegetable Oil','vegetable-oil',9500,'5 Litres','vegetable-oil.svg',79],
+  ['pepper','Fresh Pepper','pepper',2500,'Basket','pepper.svg',87],
+  ['tomatoes','Fresh Tomatoes','tomatoes',4000,'Basket','tomatoes.svg',90],
+  ['onions','Fresh Onions','onions',3500,'Basket','onions.svg',81],
+  ['spices','Mixed Spices','spices',1800,'Pack','spices.svg',71],
+  ['crayfish','Ground Crayfish','crayfish',4500,'500g','crayfish.svg',78],
+  ['dried-fish','Dried Fish','dried-fish',6000,'Pack','dried-fish.svg',73],
+  ['stockfish','Stockfish','stockfish',7500,'Pack','stockfish.svg',66],
+  ['noodles','Indomie Noodles','noodles',8500,'Carton','noodles.svg',89],
+  ['sugar','Granulated Sugar','sugar',5200,'2kg','sugar.svg',68]
+].map((p, i) => ({id:p[0], name:p[1], category:p[2], price:p[3], measure:p[4], image:`assets/products/${p[5]}`, popular:p[6], isNew:i<6}));
